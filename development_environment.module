@@ -1,0 +1,30 @@
+<?php
+
+function development_environment_init()
+{
+	if(isset($_SESSION['messages'], $_SESSION['messages']['status']))
+	{
+		for($i = 0; $i < count($_SESSION['messages']['status']); $i++)
+		{
+			if(strpos($_SESSION['messages']['status'][$i], 'A welcome message with further instructions has been e-mailed to the new user ') === 0)
+			{
+				unset($_SESSION['messages']['status'][$i]);
+			}
+		}
+	}
+}
+
+function development_environment_mail_alter(&$message)
+{
+	$message['send'] = FALSE;
+	$message_body = '';
+	foreach($message['body'] as $body_row)
+	{
+		$message_body .= nl2br($body_row) . '<br />';
+	}
+	watchdog('Development Environment', 'The following email was not sent because this instance is a development environment:<br /><br /><hr />!message_body<br /><hr />Full message:!message_data', array('!message_body' => $message_body, '!message_data' => '<pre>' . print_r($message, TRUE) . '</pre>'), WATCHDOG_NOTICE);
+	if(user_access('access site reports'))
+	{
+		drupal_set_message(t('The email to !email was not sent, as this is a development environment. The mail details can be viewed in the !watchdog', array('!email' => $message['to'], '!watchdog' => l(t('Drupal log'), 'admin/reports/dblog'))));
+	}
+}
