@@ -3,4 +3,4 @@ parameters:
 
 services:
   development_environment.var.dump.service:
-    class: %development_environment.var.dump.class%
+    class: '%development_environment.var.dump.class%'
