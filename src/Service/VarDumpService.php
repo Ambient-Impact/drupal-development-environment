@@ -1,11 +1,5 @@
 <?php
 
-/**
- * @file Contains Drupal\development_environment\Service\VarDumpService
- *
- * Provides a method to dump output to the watchdog, in a human-readable manner
- */
-
 namespace Drupal\development_environment\Service;
 
 class VarDumpService implements VarDumpServiceInterface
