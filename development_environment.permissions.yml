@@ -1,0 +1,3 @@
+access development environment email logs:
+  title: 'Access development environment mail logs'
+  description: 'Allows administrators to view logs of emails that the development environment module has prevented from being sent'

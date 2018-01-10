@@ -1,0 +1,15 @@
+development_environment.suppressed_email_log_list:
+  path: '/admin/reports/email_log'
+  defaults:
+    _controller: '\Drupal\development_environment\Controller\DevelopmentEnvironmentController::logListPage'
+    _title: 'Suppressed Email Log'
+  requirements:
+    _permission: 'access development environment email logs'
+
+development_environment.suppressed_email_log:
+  path: '/admin/reports/email_log/{lid}'
+  defaults:
+    _controller: '\Drupal\development_environment\Controller\DevelopmentEnvironmentController::mailLogPage'
+    _title: 'Suppressed Email'
+  requirements:
+    _permission: 'access development environment email logs'
