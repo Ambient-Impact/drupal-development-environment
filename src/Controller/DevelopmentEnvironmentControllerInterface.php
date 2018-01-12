@@ -22,8 +22,16 @@ interface DevelopmentEnvironmentControllerInterface {
    *   The log item ID.
    *
    * @return array
-   *   A render array representing the email log listing page.
+   *   A render array representing a single email log page.
    */
   public function mailLogPage($lid);
+
+  /**
+   * Settings page for the Development Environment module.
+   *
+   * @return array
+   *   A render array representing the settings page.
+   */
+  public function settingsPage();
 
 }

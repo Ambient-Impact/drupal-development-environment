@@ -5,6 +5,7 @@ namespace Drupal\development_environment\Controller;
 use Drupal\Core\Controller\ControllerBase;
 use Drupal\Core\Database\Connection;
 use Drupal\Core\Datetime\DateFormatterInterface;
+use Drupal\Core\Form\FormBuilderInterface;
 use Drupal\Core\Link;
 use Drupal\Core\Session\AccountProxyInterface;
 use Drupal\Core\Url;
@@ -43,7 +44,14 @@ class DevelopmentEnvironmentController extends ControllerBase implements Develop
    *
    * @var \Drupal\development_environment\Service\VarDumpServiceInterface
    */
-  protected $varDump;
+  protected $varDumpService;
+
+  /**
+   * The form builder service.
+   *
+   * @var \Drupal\Core\Form\FormBuilderInterface
+   */
+  protected $formBuilder;
 
   /**
    * Constructs a DevelopmentEnvironmentController object.
@@ -54,19 +62,23 @@ class DevelopmentEnvironmentController extends ControllerBase implements Develop
    *   The date formatter service.
    * @param \Drupal\Core\Session\AccountProxyInterface $currentUser
    *   The current user.
-   * @param \Drupal\development_environment\Service\VarDumpServiceInterface $varDump
+   * @param \Drupal\development_environment\Service\VarDumpServiceInterface $varDumpService
    *   The variable dump service.
+   * @param \Drupal\Core\Form\FormBuilderInterface $formBuilder
+   *   The form builder interface.
    */
   public function __construct(
     Connection $database,
     DateFormatterInterface $dateFormatter,
     AccountProxyInterface $currentUser,
-    VarDumpServiceInterface $varDump
+    VarDumpServiceInterface $varDumpService,
+    FormBuilderInterface $formBuilder
   ) {
     $this->database = $database;
     $this->dateFormatter = $dateFormatter;
     $this->currentUser = $currentUser;
-    $this->varDump = $varDump;
+    $this->varDumpService = $varDumpService;
+    $this->formBuilder = $formBuilder;
   }
 
   /**
@@ -77,7 +89,8 @@ class DevelopmentEnvironmentController extends ControllerBase implements Develop
       $container->get('database'),
       $container->get('date.formatter'),
       $container->get('current_user'),
-      $container->get('development_environment.var.dump.service')
+      $container->get('development_environment.var.dump.service'),
+      $container->get('form_builder')
     );
   }
 
@@ -184,7 +197,7 @@ class DevelopmentEnvironmentController extends ControllerBase implements Develop
         'headers' => [
           '#prefix' => '<div>',
           '#suffix' => '</div>',
-          '#markup' => $this->t('Headers:') . $this->varDump->varDump($mail_info['headers'], TRUE, TRUE),
+          '#markup' => $this->t('Headers:') . $this->varDumpService->varDump($mail_info['headers'], TRUE, TRUE),
         ],
       ],
       'raw_mail_data' => [
@@ -193,9 +206,22 @@ class DevelopmentEnvironmentController extends ControllerBase implements Develop
         '#collapsible' => TRUE,
         '#collapsed' => TRUE,
         'data' => [
-          '#markup' => $this->varDump->varDump($mail_info, TRUE, TRUE),
+          '#markup' => $this->varDumpService->varDump($mail_info, TRUE, TRUE),
         ],
       ],
+    ];
+
+    return $page;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function settingsPage() {
+    $page = [
+      '#prefix' => '<div id="development_environment_settings_page">',
+      '#suffix' => '</div>',
+      'form' => $this->formBuilder->getForm('\Drupal\development_environment\Form\DevelopmentEnvironmentSettingsForm'),
     ];
 
     return $page;
