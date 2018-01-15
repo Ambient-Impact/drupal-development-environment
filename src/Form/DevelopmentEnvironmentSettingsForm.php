@@ -76,7 +76,7 @@ class DevelopmentEnvironmentSettingsForm extends FormBase {
       $form['log_emails_gui_description'] = [
         '#prefix' => '<p>',
         '#suffix' => '</p>',
-        '#markup' => $this->t('To set this value and prevent it from being able to be managed through the admin UI, add a line containing <code>$settings[\'development_environment.log_emails\'] = TRUE;</code> (or FALSE) to settings.php.'),
+        '#markup' => $this->t("To set this value and prevent it from being able to be managed through the admin UI, add a line containing <code>&#36;settings[\'development_environment.log_emails\'] = TRUE;</code> (or FALSE) to settings.php."),
       ];
     }
     else {
@@ -91,16 +91,16 @@ class DevelopmentEnvironmentSettingsForm extends FormBase {
       ];
 
       if ($settings_value) {
-        $form['log_emails_display']['#markup'] = $this->t('Emails on the system are set to be logged in settings.php, and will NOT be sent from the system. To set emails to be sent rather than logged, edit settings.php, and set the value of <code>$settings[\'development_environment.log_emails\']</code> to FALSE.');
+        $form['log_emails_display']['#markup'] = $this->t("Emails on the system are set to be logged in settings.php, and will NOT be sent from the system. To set emails to be sent rather than logged, edit settings.php, and set the value of <code>&#36;settings[\'development_environment.log_emails\']</code> to FALSE.");
       }
       else {
-        $form['log_emails_display']['#markup'] = $this->t('Emails on the system are NOT set to be logged in settings.php, and will be sent from the system. To set emails to be logged rather than sent, edit settings.php, and set the value of <code>$settings[\'development_environment.log_emails\']</code> to TRUE.');
+        $form['log_emails_display']['#markup'] = $this->t("Emails on the system are NOT set to be logged in settings.php, and will be sent from the system. To set emails to be logged rather than sent, edit settings.php, and set the value of <code>&#36;settings[\'development_environment.log_emails\']</code> to TRUE.");
       }
 
       $form['log_emails_gui_description'] = [
         '#prefix' => '<p>',
         '#suffix' => '</p>',
-        '#markup' => $this->t('To manage this setting through the admin UI, remove the line containing <code>$settings[\'development_environment.log_emails\']</code> from settings.php altogether.')
+        '#markup' => $this->t("To manage this setting through the admin UI, remove the line containing <code>&#36;settings[\'development_environment.log_emails\']</code> from settings.php altogether."),
       ];
     }
 

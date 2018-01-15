@@ -24,20 +24,6 @@ function development_environment_mail_alter(&$message) {
     // Stop emails from being sent.
     $message['send'] = FALSE;
 
-    // Generate the body of the message to be shown in the logs.
-    $i = 0;
-    $formattable_string = '';
-    $replacements = [];
-    foreach ($message['body'] as $body_row) {
-      $rows = explode(PHP_EOL, $body_row);
-      foreach ($rows as $row) {
-        $formattable_string .= '@text' . $i . '<br />';
-        $replacements['@text' . $i] = $row;
-        $i++;
-      }
-      $formattable_string .= '<br />';
-    }
-
     $lid = \Drupal::database()->insert('development_environment_log')
       ->fields([
         'email_data' => serialize($message),
