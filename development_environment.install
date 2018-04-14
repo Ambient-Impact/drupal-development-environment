@@ -17,6 +17,7 @@ function development_environment_schema() {
       'lid' => [
         'description' => 'The unique Log ID of the log item',
         'type' => 'serial',
+        'not null' => TRUE,
       ],
       'email_data' => [
         'description' => 'The Drupal email data',
@@ -61,6 +62,7 @@ function development_environment_update_8001() {
         'lid' => [
           'description' => 'The unique Log ID of the log item',
           'type' => 'serial',
+          'not null' => TRUE,
         ],
         'email_data' => [
           'description' => 'The Drupal email data',
