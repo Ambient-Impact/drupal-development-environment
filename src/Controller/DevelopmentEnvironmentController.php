@@ -111,6 +111,7 @@ class DevelopmentEnvironmentController extends ControllerBase implements Develop
       ->execute();
 
     $page = [
+      'form' => $this->formBuilder->getForm('\Drupal\development_environment\Form\DevelopmentEnvironmentClearLogForm'),
       'items' => [
         '#theme' => 'table',
         '#header' => [
