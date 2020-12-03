@@ -71,7 +71,7 @@ class DevelopmentEnvironmentClearLogForm extends FormBase {
    */
   public function submitForm(array &$form, FormStateInterface $formState) {
     $this->database->query('TRUNCATE {development_environment_log}');
-    drupal_set_message($this->t('The suppressed email log has been cleared'));
+    $this->messenger()->addStatus($this->t('The suppressed email log has been cleared'));
   }
 
 }

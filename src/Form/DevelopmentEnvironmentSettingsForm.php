@@ -122,7 +122,7 @@ class DevelopmentEnvironmentSettingsForm extends FormBase {
    */
   public function submitForm(array &$form, FormStateInterface $form_state) {
     $this->state->set('development_environment.log_emails', $form_state->getValue('log_emails'));
-    drupal_set_message('The settings have been updated');
+    $this->messenger()->addStatus('The settings have been updated');
   }
 
 }

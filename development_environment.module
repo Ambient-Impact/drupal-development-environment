@@ -28,7 +28,7 @@ function development_environment_mail_alter(&$message) {
       $lid = \Drupal::database()->insert('development_environment_log')
         ->fields([
           'email_data' => serialize($message),
-          'timestamp' => REQUEST_TIME,
+          'timestamp' => \Drupal::time()->getRequestTime(),
           'recipient_email' => $message['to'],
           'subject' => $message['subject'],
         ])
@@ -39,15 +39,15 @@ function development_environment_mail_alter(&$message) {
         $link = Link::fromTextAndUrl(t('log'), $url);
         $formatted_link = new FormattableMarkup('@link', ['@link' => $link->toString()]);
 
-        drupal_set_message(t('The email to @email was not sent, as this is a development environment. The mail details can be viewed in the @log.', ['@email' => $message['to'], '@log' => $formatted_link]));
+        \Drupal::messenger()->addStatus(t('The email to @email was not sent, as this is a development environment. The mail details can be viewed in the @log.', ['@email' => $message['to'], '@log' => $formatted_link]));
       }
       else {
-        drupal_set_message(t('The email to @email was not sent, as this is a development environment', ['@email' => $message['to']]));
+        \Drupal::messenger()->addStatus(t('The email to @email was not sent, as this is a development environment', ['@email' => $message['to']]));
       }
     }
     catch (\Exception $e) {
       watchdog_exception('development_environment', $e);
-      drupal_set_message(t('The email to @email was not sent, and an error occurred while trying to log it. Please see error logs for further details', ['@email' => $message['to']]));
+      \Drupal::messenger()->addStatus(t('The email to @email was not sent, and an error occurred while trying to log it. Please see error logs for further details', ['@email' => $message['to']]));
     }
   }
 
