@@ -1,0 +1,9 @@
+{
+  "name": "drupal/development_environment",
+  "description": "When this module is enabled, the system it is enabled on is marked as a development environment, logging emails to the watchdog instead of sending them out.",
+  "type": "drupal-module",
+  "license": "GPL-2.0-or-later",
+  "requires": {
+    "drupal/core": "^8 || ^9 || ^10"
+  }
+}
